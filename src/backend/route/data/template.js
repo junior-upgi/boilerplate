@@ -1,3 +1,4 @@
+/*
 const express = require('express');
 const moment = require('moment-timezone');
 const Treeize = require('treeize');
@@ -33,11 +34,9 @@ router.route('/data/purchaseOrder')
             .select('*')
             .orderBy('pONumber')
             .orderBy('shipments:workingDate')
-            /*
             .orderBy('workingYear')
             .orderBy('workingMonth')
             .orderBy('CUS_NO')
-            */
             .debug(false)
             .then((resultset) => {
                 let pOList = new Treeize();
@@ -155,11 +154,9 @@ router.route('/data/purchaseOrder')
                         .select('*')
                         .orderBy('pONumber')
                         .orderBy('shipments:workingDate')
-                        /*
                         .orderBy('workingYear')
                         .orderBy('workingMonth')
                         .orderBy('CUS_NO')
-                        */
                         .debug(false);
                 }).then((resultset) => {
                     // process active purchase order data
@@ -291,11 +288,9 @@ router.route('/data/purchaseOrder')
                         .select('*')
                         .orderBy('pONumber')
                         .orderBy('shipments:workingDate')
-                        /*
                         .orderBy('workingYear')
                         .orderBy('workingMonth')
                         .orderBy('CUS_NO')
-                        */
                         .debug(false);
                 }).then((resultset) => {
                     // process active purchase order data
@@ -352,3 +347,4 @@ router.route('/data/purchaseOrder')
     });
 
 module.exports = router;
+*/
