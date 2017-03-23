@@ -1,12 +1,10 @@
 {
-    "name": "raw-material",
-    "description": "program frontend to monitor and regulate purchase and transport of raw material used in glass production",
+    "name": "boilerplate",
+    "description": "project boilerplate with bootstrap, vue.js and express.js",
     "main": "public/main.js",
-    "authors": [
-        "Chia-Yu Tsai"
-    ],
+    "authors": ["Chia-Yu Tsai"],
     "license": "MIT",
-    "homepage": "https://github.com/junior-upgi/rawMaterial",
+    "homepage": "https://github.com/junior-upgi/boilerplate",
     "private": true,
     "ignore": [
         "**/.*",
