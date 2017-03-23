@@ -99,9 +99,9 @@
         "watchify": "^3.9.0"
     },
     "config": {
-        "appurl": "http://localhost:9006/rawMaterial/index.html",
-        "serverLintingReportUrl": "http://localhost:9006/rawMaterial/lintingReport/server.html",
-        "clientLintingReportUrl": "http://localhost:9006/rawMaterial/lintingReport/client.html"
+        "appurl": "http://localhost:9007/boilerplate/index.html",
+        "serverLintingReportUrl": "http://localhost:9007/boilerplate/lintingReport/server.html",
+        "clientLintingReportUrl": "http://localhost:9007/boilerplate/lintingReport/client.html"
     },
     "scripts": {
         "rebuild:cleanup": "run-p client:cleanup server:cleanup cleanup:log cleanup:misc",

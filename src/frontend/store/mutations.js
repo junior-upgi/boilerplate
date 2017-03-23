@@ -2,4 +2,4 @@ function emptyStore(state) {
     state = {};
 }
 
-export default { emptyStore: emptyStore }
+export default { emptyStore: emptyStore };

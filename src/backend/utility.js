@@ -1,20 +1,16 @@
-/*
-const cron = require('node-cron');
-const fs = require('fs');
-const moment = require('moment-timezone');
-const os = require('os');
-const httpRequest = require('request-promise');
-const winston = require('winston');
+import fs from 'fs';
+import moment from 'moment-timezone';
+import cron from 'node-cron';
+import os from 'os';
+import httpRequest from 'request-promise';
+import winston from 'winston';
 
-const serverConfig = require('./serverConfig.js');
-const telegram = require('./model/telegram.js');
-
+import { administrator, development, logDir, systemReference } from './serverConfig.js';
+import { botApiUrl, getBotToken } from './model/telegram.js';
 // logging utility
 // Create the log directory if it does not exist
-if (!fs.existsSync(serverConfig.logDir)) {
-    fs.mkdirSync(serverConfig.logDir);
-}
-const logger = new(winston.Logger)({
+if (!fs.existsSync(logDir)) { fs.mkdirSync(logDir); }
+export const logger = new(winston.Logger)({
     transports: [
         // colorize the output to the console
         new(winston.transports.Console)({
@@ -23,63 +19,77 @@ const logger = new(winston.Logger)({
             level: 'debug'
         }),
         new(winston.transports.File)({
-            filename: `${serverConfig.logDir}/results.log`,
+            filename: `${logDir}/results.log`,
             timestamp: currentDatetimeString(),
-            level: serverConfig.development ? 'debug' : 'info'
+            level: development ? 'debug' : 'info'
         })
     ]
 });
 
 // status report utility
-const statusReport = cron.schedule('0 0 8,22 * * *', () => {
-    logger.info(`${serverConfig.systemReference} reporting mechanism triggered`);
+export const statusReport = cron.schedule('0 0 8,22 * * *', () => {
+    logger.info(`${systemReference} reporting mechanism triggered`);
     const issuedDatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const message = `${issuedDatetime} ${serverConfig.systemReference} server reporting in from ${os.hostname()}`;
+    const message = `${issuedDatetime} ${systemReference} server reporting in from ${os.hostname()}`;
     httpRequest({
         method: 'post',
-        uri: serverConfig.botAPIUrl + telegram.getBotToken('upgiITBot') + '/sendMessage',
+        uri: botApiUrl + getBotToken('upgiITBot') + '/sendMessage',
         body: {
-            chat_id: serverConfig.administrator,
+            chat_id: administrator,
             text: `${message}`,
-            token: telegram.getBotToken('upgiITBot')
+            token: getBotToken('upgiITBot')
         },
         json: true
     }).then((response) => {
         logger.verbose(`${message}`);
-        return logger.info(`${serverConfig.systemReference} reporting mechanism completed`);
+        return logger.info(`${systemReference} reporting mechanism completed`);
     }).catch((error) => {
         alertSystemError('statusReport', error);
-        return logger.error(`${serverConfig.systemReference} reporting mechanism failure ${error}`);
+        return logger.error(`${systemReference} reporting mechanism failure ${error}`);
     });
 }, false);
 
 // telegram messaging utility
-function alertSystemError(functionRef, message) {
+export function alertSystemError(functionRef, message) {
     httpRequest({ // broadcast alert heading
         method: 'post',
-        uri: serverConfig.botAPIUrl + telegram.getBotToken('upgiITBot') + '/sendMessage',
+        uri: botApiUrl + getBotToken('upgiITBot') + '/sendMessage',
         body: {
-            chat_id: serverConfig.administrator,
-            text: `error encountered while executing [${serverConfig.systemReference}][${functionRef}] @ ${currentDatetimeString()}`,
-            token: telegram.getBotToken('upgiITBot')
+            chat_id: administrator,
+            text: `error encountered while executing [${systemReference}][${functionRef}] @ ${currentDatetimeString()}`,
+            token: getBotToken('upgiITBot')
         },
         json: true
     }).then((response) => {
         return httpRequest({ // broadcast alert body message
             method: 'post',
-            uri: serverConfig.botAPIUrl + telegram.getBotToken('upgiITBot') + '/sendMessage',
+            uri: botApiUrl + getBotToken('upgiITBot') + '/sendMessage',
             form: {
-                chat_id: serverConfig.administrator,
+                chat_id: administrator,
                 text: `error message: ${message}`,
-                token: telegram.getBotToken('upgiITBot')
+                token: getBotToken('upgiITBot')
             }
         });
     }).then((response) => {
-        return logger.info(`${serverConfig.systemReference} alert sent`);
+        return logger.info(`${systemReference} alert sent`);
     }).catch((error) => {
-        return logger.error(`${serverConfig.systemReference} failure: ${error}`);
+        return logger.error(`${systemReference} failure: ${error}`);
     });
 }
+
+export function endpointErrorHandler(method, originalUrl, errorMessage) {
+    const errorString = `${method} ${originalUrl} route failure: ${errorMessage}`;
+    logger.error(errorString);
+    logger.info(alertSystemError(`${method} ${originalUrl} route`, errorString));
+    return {
+        errorMessage: errorString
+    };
+}
+
+// date and time utility
+export function currentDatetimeString() { return moment(new Date()).format('YYYY-MM-DD HH:mm:ss'); }
+
+/*
 
 function sendMobileMessage(recipientIDList, messageList, botName) {
     recipientIDList.forEach((recipientID) => {
@@ -100,20 +110,6 @@ function sendMobileMessage(recipientIDList, messageList, botName) {
         });
     });
     return;
-}
-
-function endpointErrorHandler(method, originalUrl, errorMessage) {
-    const errorString = `${method} ${originalUrl} route failure: ${errorMessage}`;
-    logger.error(errorString);
-    logger.info(alertSystemError(serverConfig.systemReference, errorString));
-    return {
-        errorMessage: errorString
-    };
-}
-
-// date and time utility
-function currentDatetimeString() {
-    return moment.utc(new Date()).format('YYYY-MM-DD HH:mm:ss');
 }
 
 function firstOfMonthString(year, month) {

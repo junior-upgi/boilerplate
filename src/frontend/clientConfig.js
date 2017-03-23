@@ -1,6 +1,6 @@
-const development = true;
 export const systemReference = 'boilerplate';
-const serverPort = 9006;
+// const development = true;
+// const serverPort = 9007;
 
 /*
 

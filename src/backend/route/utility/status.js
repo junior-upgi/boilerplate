@@ -1,16 +1,17 @@
-const express = require('express');
+import express from 'express';
+import os from 'os';
 
-const serverConfig = require('../../serverConfig.js');
-const utility = require('../../utility.js');
+import { systemReference } from '../../serverConfig.js';
+import { currentDatetimeString } from '../../utility.js';
 
 const router = express.Router();
 
 router.get('/utility/status', (request, response) => {
     return response.status(200).json({
-        hostname: serverConfig.serverHostname,
-        system: serverConfig.systemReference,
+        hostname: os.hostname(),
+        system: systemReference,
         status: 'online',
-        timestamp: utility.currentDatetimeString
+        timestamp: currentDatetimeString()
     });
 });
 

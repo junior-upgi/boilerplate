@@ -1,4 +1,4 @@
-const botList = [
+export const botList = [
     { id: 267738010, first_name: '逾期款機器人', username: 'overdueMonitorBot', token: '267738010:AAGT17aLumIfVPNeFWht8eUEPuC2HfAouGk' },
     { id: 251686312, first_name: '氣泡數機器人', username: 'seedCountBot', token: '251686312:AAG8_sczOJvJSwtese4kgzH95RLyX5ZJ114' },
     { id: 296411532, first_name: 'UPGI註冊機器人', username: 'upgiRegisterBot', token: '296411532:AAF9U92K7LLKB7g-jvvG4remdHGi90ph2fI' },
@@ -7,7 +7,7 @@ const botList = [
     { id: 287236637, first_name: 'UPGI IT 機器人', username: 'upgiITBot', token: '287236637:AAHSuMHmaZJ2Vm9gXf3NeSlInrgr-XXzoRo' }
 ];
 
-const chatList = [
+export const chatList = [
     { id: -150874076, title: '業務群組', type: 'group' },
     { id: -155069392, title: '玻璃製造群組', type: 'group' },
     { id: -157638300, title: '資訊群組', type: 'group' },
@@ -16,7 +16,7 @@ const chatList = [
     { id: -170186986, title: '統義原料控管系統群組', type: 'group' }
 ];
 
-const userList = [
+export const userList = [
     { id: 241630569, username: 'junior_upgi', first_name: '佳佑', last_name: '蔡', email: 'junior@upgi.com.tw', erpId: '05060001' },
     { id: 252069370, username: 'upgi_spark', first_name: '于斌', last_name: '林', email: 'it@upgi.com.tw', erpId: '16080003' },
     { id: 240006091, username: 'Ray0626', first_name: '治儒', last_name: '陳', email: null, erpId: '15050003' },
@@ -58,44 +58,44 @@ const userList = [
     { id: 315730922, username: 'hungmien', first_name: '綿', last_name: '洪', email: 'mien@upgi.com.tw', erpId: '17020004' }
 ];
 
-module.exports = {
-    botList: botList,
-    chatList: chatList,
-    userList: userList,
-    getBotToken: (botUsername) => {
-        let token;
-        botList.forEach((botObject) => {
-            if (botObject.username === botUsername) {
-                token = botObject.token;
-            }
-        });
-        return token;
-    },
-    getChatID: (title) => {
-        let chat_id;
-        chatList.forEach((chatObject) => {
-            if (chatObject.title === title) {
-                chat_id = chatObject.id;
-            }
-        });
-        return chat_id;
-    },
-    getUserID: (username) => {
-        let chat_id;
-        userList.forEach((userObject) => {
-            if (userObject.last_name + userObject.first_name === username) {
-                chat_id = userObject.id;
-            }
-        });
-        return chat_id;
-    },
-    getUserName: (chat_id) => {
-        let username;
-        userList.forEach((userObject) => {
-            if (userObject.id === chat_id) {
-                username = userObject.last_name + userObject.first_name;
-            }
-        });
-        return username;
-    }
-};
+export const botApiUrl = 'https://api.telegram.org/bot'; // broadcasting configuration
+
+export function getBotToken(botUsername) {
+    let token;
+    botList.forEach((botObject) => {
+        if (botObject.username === botUsername) {
+            token = botObject.token;
+        }
+    });
+    return token;
+}
+
+export function getChatID(title) {
+    let chat_id;
+    chatList.forEach((chatObject) => {
+        if (chatObject.title === title) {
+            chat_id = chatObject.id;
+        }
+    });
+    return chat_id;
+}
+
+export function getUserID(username) {
+    let chat_id;
+    userList.forEach((userObject) => {
+        if (userObject.last_name + userObject.first_name === username) {
+            chat_id = userObject.id;
+        }
+    });
+    return chat_id;
+}
+
+export function getUserName(chat_id) {
+    let username;
+    userList.forEach((userObject) => {
+        if (userObject.id === chat_id) {
+            username = userObject.last_name + userObject.first_name;
+        }
+    });
+    return username;
+}
