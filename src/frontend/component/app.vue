@@ -1,15 +1,16 @@
 <template lang="html">
     <div class="container-fluid">
-        <div v-if="!pOPrintMode" class="row" style="margin-left:10px;">
+        <div class="row" style="margin-left:10px;">
             <div class="page-header" style="margin-top:15px;">
-                <h2 style="margin-top:0px;">統義玻璃股份有限公司 <small style="white-space:nowrap;">boilerplate project</small></h2>
+                <h2 style="margin-top:0px;">
+                    <span style="white-space:nowrap;">統義玻璃股份有限公司</span>
+                    <small style="white-space:nowrap;">boilerplate project</small>
+                </h2>
             </div>
         </div>
-        <div class="row">
-            <sidebar v-if="(activeView!=='login') && (!pOPrintMode)">
-            </sidebar>
-            <div :is="activeView"></div>
-        </div>
+        <!--
+        <div class="row"></div>
+        -->
     </div>
 </template>
 
