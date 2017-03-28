@@ -21,6 +21,9 @@ export function broadcastServerUrl() {
     return (development === true) ? sshAccessUrl : lanAccessUrl;
 }
 
+// smartsheet
+export const smartsheetToken = '696io5sv0dcqj8korwwgjob9os';
+
 // ldap
 export const ldapServerUrl = 'ldap://upgi.ddns.net:389';
 
