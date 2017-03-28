@@ -1,5 +1,5 @@
 // system configuration
-export const systemReference = 'decoSchedule';
+export const systemReference = 'boilerplate';
 export const development = true;
 export const administrator = 241630569; // telegram account of system admin
 export const uploadDir = 'upload';
