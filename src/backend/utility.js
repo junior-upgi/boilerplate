@@ -90,14 +90,14 @@ export function endpointErrorHandler(method, originalUrl, errorMessage) {
 
 // date and time utility
 export function currentDatetimeString() { return moment(new Date()).format('YYYY-MM-DD HH:mm:ss'); }
-export function currentYear() { return new Data().getFullYear(); }
+export function currentYear() { return new Date().getFullYear(); }
 export function currentMonth() { return new Date().getMonth(); }
 export function currentDateString() { return moment(new Date()).format('YYYY-MM-DD'); }
 export function firstDateStringOfCurrentMonth() { return moment(new Date(currentYear(), currentMonth(), 1)).format('YYYY-MM-DD'); }
 export function lastDateStringOfCurrentMonth() { return moment(new Date(currentYear(), currentMonth() + 1, 1)).subtract(1, 'day').format('YYYY-MM-DD'); }
 
 // email utility
-const smtpTransport = nodemailer.createTransport(serverConfig.smtpTransportAccount);
+const smtpTransport = nodemailer.createTransport(smtpTransportAccount);
 export function sendEmail(senderString, recipientList, subject, emailBody, attachmentList) {
     const mailOption = {
         from: subject,
@@ -167,7 +167,7 @@ export function createExcelFile(worksheetDataList, fullDestinationPath) {
     let workbook = new Workbook(); // create an workbook object
     worksheetDataList.forEach((worksheet) => { // cycle through each worksheet and create them before placing in the workbook
         let worksheetDataContainer = []; // array to hold rows of excel data
-        worksheetDataContainer.push(worksheet.titleColumnArray) // push the title column into the worksheetDataContainer
+        worksheetDataContainer.push(worksheet.titleColumnArray); // push the title column into the worksheetDataContainer
         worksheet.dataObject.forEach((dataRow) => { // convert data object into arrays of array (individual rows of data)
             let rowArray = []; // temp array to hold the current indexed object's data
             for (let indexedAttrib in dataRow) { // loop through object's individual attributes
@@ -175,7 +175,7 @@ export function createExcelFile(worksheetDataList, fullDestinationPath) {
             }
             worksheetDataContainer.push(rowArray); // push an array(row of data) into the container
         });
-        let worksheetName = worksheetData.worksheetName; // indicate the name of the current worksheet that's being created
+        let worksheetName = worksheet.worksheetName; // indicate the name of the current worksheet that's being created
         workbook.SheetNames.push(worksheetName); // create the worksheet and supplying a name to it
         workbook.Sheets[worksheetName] = insertWorksheetData(worksheetDataContainer); // insert the worksheet data into the workbook
     });
