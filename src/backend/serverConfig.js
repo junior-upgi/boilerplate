@@ -23,7 +23,7 @@ export function broadcastServerUrl() {
 }
 
 // smartsheet
-export const smartsheetToken = '696io5sv0dcqj8korwwgjob9os';
+export const smartsheetToken = 'Bearer ' + '696io5sv0dcqj8korwwgjob9os';
 
 // ldap
 export const ldapServerUrl = 'ldap://upgi.ddns.net:389';
