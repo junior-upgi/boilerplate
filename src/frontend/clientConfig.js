@@ -1,4 +1,5 @@
 export const systemReference = 'boilerplate';
+export const systemName = 'boilerplate';
 const development = true;
 const serverPort = 9007;
 
